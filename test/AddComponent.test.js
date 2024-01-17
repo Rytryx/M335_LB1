@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, fireEvent, render, waitFor } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AddComponent from '../sites/AddReflexionSite';
+
 
 describe('AddComponent', () => {
     it('renders correctly', async () => {
