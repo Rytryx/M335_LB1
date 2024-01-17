@@ -3,6 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TextInput, Button, IconButton } from 'react-native-paper';
+import { getDBConnection, addReflection } from '../db/db-service'; 
 
 const AddComponent = () => {
   const insets = useSafeAreaInsets();
@@ -11,10 +12,29 @@ const AddComponent = () => {
   const [reflectionText, setReflectionText] = React.useState('');
   const [reflectionDate, setReflectionDate] = React.useState(new Date());
   const [showDatePicker, setShowDatePicker] = React.useState(false);
+  // Placeholder states for image and voice recording
+  const [image, setImage] = React.useState('');
+  const [voiceRecording, setVoiceRecording] = React.useState('');
 
-  const pickImage = () => {/* Placeholder */};
-  const startRecording = () => {/* Placeholder */};
-  const submitReflection = () => {/* Placeholder */};
+  const pickImage = () => {/* Placeholder for image picking logic */};
+  const startRecording = () => {/* Placeholder for voice recording logic */};
+  
+  const submitReflection = async () => {
+    try {
+      const db = await getDBConnection();
+      const newReflection = {
+        title,
+        image, // This should be set by pickImage function
+        date: reflectionDate.toISOString(),
+        text: reflectionText,
+        voiceRecording, // This should be set by startRecording function
+      };
+      await addReflection(db, newReflection);
+      // Reset state or handle post-submission logic here
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <SafeAreaProvider>

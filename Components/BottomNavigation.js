@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
-import AddComponent from './AddComponent';
-import OverviewComponent from './OverviewComponent';
-import AchievmentsComponent from './AchievmentsComponent';
+import AddComponent from '../Sites/AddReflexionSite';
+import OverviewComponent from '../Sites/OverviewSite';
+import AchievmentsComponent from '../Sites/AchievmentsSite';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const AddRoute = () => 
