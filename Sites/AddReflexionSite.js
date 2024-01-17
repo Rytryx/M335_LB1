@@ -4,9 +4,9 @@ import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-cont
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TextInput, Button, IconButton } from 'react-native-paper';
 import { storeReflection } from '../storage/AsyncStorage';
-import { pickImage } from '../components/ImagePickerComponent';
+import ImagePickerComponent from '../components/ImagePickerComponent';
 
-const AddComponent = () => {
+const AddComponent = ({ navigation }) => {
   const insets = useSafeAreaInsets();
 
   const [title, setTitle] = React.useState('');
@@ -16,19 +16,12 @@ const AddComponent = () => {
   const [selectedImage, setSelectedImage] = React.useState(null);
   const [voiceRecording, setVoiceRecording] = React.useState('');
 
-  const pickImageFromComponent = async () => {
-    let result = await pickImage();
-  
-    console.log(result);
-  
-    if (!result.cancelled) {
-      setSelectedImage(result.uri);
-    }
+  const handleImageSelected = (imageUri) => {
+    setSelectedImage(imageUri);
   };
-  
 
   const startRecording = () => {
-    // Placeholder for voice recording logic
+    console.log('Recording started');
   };
 
   const submitReflection = async () => {
@@ -44,9 +37,11 @@ const AddComponent = () => {
       };
 
       await storeReflection(newReflection);
+      console.log('Reflection added successfully:', newReflection);
       Alert.alert('Success', 'Reflection added successfully.');
+      navigation.goBack();
     } catch (error) {
-      console.error(error);
+      console.error('Error adding reflection:', error);
       Alert.alert('Error', 'Failed to add reflection.');
     }
   };
@@ -61,15 +56,13 @@ const AddComponent = () => {
           mode="outlined"
           style={styles.input}
         />
-        <TouchableOpacity style={styles.button} onPress={pickImageFromComponent}>
-          <View style={styles.buttonContent}>
-            <Text style={styles.buttonText}>Pick an Image</Text>
-            <IconButton icon="camera" color="black" size={20} />
-          </View>
-        </TouchableOpacity>
+
+        <ImagePickerComponent onImageSelected={handleImageSelected} />
+
         {selectedImage && (
           <Image source={{ uri: selectedImage }} style={{ width: 200, height: 200 }} />
         )}
+
         <TouchableOpacity style={styles.button} onPress={() => setShowDatePicker(true)}>
           <View style={styles.buttonContent}>
             <Text style={styles.buttonText}>Select Date</Text>

@@ -6,7 +6,7 @@ import { getAllReflections } from '../storage/AsyncStorage';
 
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
-const OverviewComponent = () => {
+const OverviewComponent = ({ route }) => {
   const insets = useSafeAreaInsets();
   const [page, setPage] = React.useState(0);
   const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
@@ -51,7 +51,9 @@ const OverviewComponent = () => {
           <DataTable.Row key={index}>
             <DataTable.Cell>{reflection.title}</DataTable.Cell>
             <DataTable.Cell>
-              <Image source={{ uri: reflection.image }} style={{ width: 50, height: 50 }} />
+              {reflection.image && (
+                <Image source={{ uri: reflection.image }} style={{ width: 50, height: 50 }} />
+              )}
             </DataTable.Cell>
             <DataTable.Cell>{new Date(reflection.date).toLocaleDateString()}</DataTable.Cell>
           </DataTable.Row>
