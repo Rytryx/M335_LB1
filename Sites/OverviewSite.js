@@ -6,11 +6,10 @@ import { getAllReflections } from '../storage/AsyncStorage';
 
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
-const OverviewComponent = ({ route }) => {
+const OverviewComponent = () => {
   const insets = useSafeAreaInsets();
   const [page, setPage] = React.useState(0);
-  const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
-  const [itemsPerPage, onItemsPerPageChange] = React.useState(numberOfItemsPerPageList[0]);
+  const itemsPerPage = 6;
   const [reflections, setReflections] = React.useState([]);
 
   const loadReflections = async () => {
@@ -26,10 +25,6 @@ const OverviewComponent = ({ route }) => {
     loadReflections();
   }, []);
 
-  React.useEffect(() => {
-    setPage(0);
-  }, [itemsPerPage]);
-
   const from = page * itemsPerPage;
   const to = Math.min((page + 1) * itemsPerPage, reflections.length);
 
@@ -41,21 +36,27 @@ const OverviewComponent = ({ route }) => {
       </Appbar.Header>
 
       <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Title</DataTable.Title>
-          <DataTable.Title>Image</DataTable.Title>
-          <DataTable.Title>Date</DataTable.Title>
+        <DataTable.Header style={styles.header}>
+          <DataTable.Title><Text style={styles.headerText}>Title</Text></DataTable.Title>
+          <DataTable.Title><Text style={styles.headerText}>Image</Text></DataTable.Title>
+          <DataTable.Title><Text style={styles.headerText}>Date</Text></DataTable.Title>
         </DataTable.Header>
 
         {reflections.slice(from, to).map((reflection, index) => (
-          <DataTable.Row key={index}>
-            <DataTable.Cell>{reflection.title}</DataTable.Cell>
+          <DataTable.Row style={styles.row} key={index}>
+            <DataTable.Cell>
+              <Text style={styles.text}>{reflection.title}</Text>
+            </DataTable.Cell>
             <DataTable.Cell>
               {reflection.image && (
-                <Image source={{ uri: reflection.image }} style={{ width: 50, height: 50 }} />
+                <Image source={{ uri: reflection.image }} style={styles.image} />
               )}
             </DataTable.Cell>
-            <DataTable.Cell>{new Date(reflection.date).toLocaleDateString()}</DataTable.Cell>
+            <DataTable.Cell>
+              <Text style={styles.text}>
+                {new Date(reflection.date).toLocaleDateString()}
+              </Text>
+            </DataTable.Cell>
           </DataTable.Row>
         ))}
 
@@ -64,15 +65,34 @@ const OverviewComponent = ({ route }) => {
           numberOfPages={Math.ceil(reflections.length / itemsPerPage)}
           onPageChange={(page) => setPage(page)}
           label={`${from + 1}-${to} of ${reflections.length}`}
-          numberOfItemsPerPageList={numberOfItemsPerPageList}
-          numberOfItemsPerPage={itemsPerPage}
-          onItemsPerPageChange={onItemsPerPageChange}
           showFastPaginationControls
-          selectPageDropdownLabel={'Rows per page'}
         />
       </DataTable>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  row: {
+    height: 80,
+  },
+  image: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  text: {
+    fontSize: 16,
+    color: '#333',
+  },
+  header: {
+    backgroundColor: '#f4f4f4',
+  },
+  headerText: {
+    fontWeight: 'bold',
+  },
+});
 
 export default OverviewComponent;
