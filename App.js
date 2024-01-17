@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import AppContent from './Components/BottomNavigation';
+import AppContent from './components/BottomNavigation';
 
 const App = () => {
   return (
