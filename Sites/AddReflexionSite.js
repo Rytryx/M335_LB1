@@ -6,7 +6,7 @@ import { TextInput, Button, IconButton } from 'react-native-paper';
 import { storeReflection } from '../storage/AsyncStorage';
 import ImagePickerComponent from '../components/ImagePickerComponent';
 
-const AddComponent = ({ navigation }) => {
+const AddComponent = () => {
   const insets = useSafeAreaInsets();
 
   const [title, setTitle] = React.useState('');
@@ -17,14 +17,17 @@ const AddComponent = ({ navigation }) => {
   const [voiceRecording, setVoiceRecording] = React.useState('');
 
   const handleImageSelected = (imageUri) => {
+    console.log('handleImageSelected called with imageUri:', imageUri);
     setSelectedImage(imageUri);
   };
+  
 
   const startRecording = () => {
     console.log('Recording started');
   };
 
   const submitReflection = async () => {
+    console.log('Image check', selectedImage);
     try {
       const reflectionId = new Date().getTime().toString();
       const newReflection = {
@@ -35,11 +38,10 @@ const AddComponent = ({ navigation }) => {
         text: reflectionText,
         voiceRecording,
       };
-
+      console.log('Reflection check', newReflection);
       await storeReflection(newReflection);
       console.log('Reflection added successfully:', newReflection);
       Alert.alert('Success', 'Reflection added successfully.');
-      navigation.goBack();
     } catch (error) {
       console.error('Error adding reflection:', error);
       Alert.alert('Error', 'Failed to add reflection.');

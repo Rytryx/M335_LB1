@@ -14,17 +14,18 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true,
-      "config": {
-        "plugins": {
-          "expo-image-picker": {
-            "photosPermission": "The app accesses your photos to let you share them with your friends.",
-            "cameraPermission": "The app accesses your camera for capturing photos.",
-            "microphonePermission": "The app accesses your microphone for recording audio."
-          }
+    "plugins": [
+      [
+        "expo-image-picker", 
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends.",
+          "cameraPermission": "The app accesses your camera for capturing photos.",
+          "microphonePermission": "The app accesses your microphone for recording audio."
         }
-      }
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
