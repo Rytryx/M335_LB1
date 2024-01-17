@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TextInput, Button, IconButton } from 'react-native-paper';
-import { getDBConnection, addReflection } from '../db/db-service'; 
+import { storeReflection } from '../storage/AsyncStorage';
 
 const AddComponent = () => {
   const insets = useSafeAreaInsets();
@@ -12,7 +12,6 @@ const AddComponent = () => {
   const [reflectionText, setReflectionText] = React.useState('');
   const [reflectionDate, setReflectionDate] = React.useState(new Date());
   const [showDatePicker, setShowDatePicker] = React.useState(false);
-  // Placeholder states for image and voice recording
   const [image, setImage] = React.useState('');
   const [voiceRecording, setVoiceRecording] = React.useState('');
 
@@ -21,18 +20,21 @@ const AddComponent = () => {
   
   const submitReflection = async () => {
     try {
-      const db = await getDBConnection();
+      const reflectionId = new Date().getTime().toString();
       const newReflection = {
+        id: reflectionId,
         title,
         image, // This should be set by pickImage function
         date: reflectionDate.toISOString(),
         text: reflectionText,
         voiceRecording, // This should be set by startRecording function
       };
-      await addReflection(db, newReflection);
-      // Reset state or handle post-submission logic here
+
+      await storeReflection(newReflection);
+      Alert.alert("Success", "Reflection added successfully.");
     } catch (error) {
       console.error(error);
+      Alert.alert("Error", "Failed to add reflection.");
     }
   };
 
