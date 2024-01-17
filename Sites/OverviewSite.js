@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, Image, StyleSheet, Platform } from 'react-native';
 import { Appbar, DataTable } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getDBConnection, getReflections } from '../db/db-service';
+import { getAllReflections } from '../storage/AsyncStorage';
 
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
@@ -15,8 +15,7 @@ const OverviewComponent = () => {
 
   const loadReflections = async () => {
     try {
-      const db = await getDBConnection();
-      const loadedReflections = await getReflections(db);
+      const loadedReflections = await getAllReflections();
       setReflections(loadedReflections);
     } catch (error) {
       console.error(error);
@@ -54,7 +53,7 @@ const OverviewComponent = () => {
             <DataTable.Cell>
               <Image source={{ uri: reflection.image }} style={{ width: 50, height: 50 }} />
             </DataTable.Cell>
-            <DataTable.Cell>{reflection.date}</DataTable.Cell>
+            <DataTable.Cell>{new Date(reflection.date).toLocaleDateString()}</DataTable.Cell>
           </DataTable.Row>
         ))}
 
