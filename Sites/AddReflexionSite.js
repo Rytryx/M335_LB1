@@ -13,7 +13,7 @@ const AddComponent = () => {
   const [reflectionText, setReflectionText] = React.useState('');
   const [reflectionDate, setReflectionDate] = React.useState(new Date());
   const [showDatePicker, setShowDatePicker] = React.useState(false);
-  const [selectedImage, setSelectedImage] = React.useState(null); // Added state for selected image
+  const [selectedImage, setSelectedImage] = React.useState(null);
   const [voiceRecording, setVoiceRecording] = React.useState('');
 
   const pickImageFromComponent = async () => {
@@ -37,10 +37,10 @@ const AddComponent = () => {
       const newReflection = {
         id: reflectionId,
         title,
-        image: selectedImage, // Use the selected image
+        image: selectedImage,
         date: reflectionDate.toISOString(),
         text: reflectionText,
-        voiceRecording, // This should be set by startRecording function
+        voiceRecording,
       };
 
       await storeReflection(newReflection);
