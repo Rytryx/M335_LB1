@@ -7,11 +7,15 @@ import { getAllReflections } from '../storage/AsyncStorage';
 const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
 
 const OverviewComponent = () => {
+  // Use SafeAreaInsets to handle safe area padding
   const insets = useSafeAreaInsets();
+
+  // State variables for pagination and reflections data
   const [page, setPage] = React.useState(0);
   const itemsPerPage = 6;
   const [reflections, setReflections] = React.useState([]);
 
+  // Function to load reflections from storage
   const loadReflections = async () => {
     try {
       const loadedReflections = await getAllReflections();
@@ -21,10 +25,12 @@ const OverviewComponent = () => {
     }
   };
 
+  // Load reflections on component mount
   React.useEffect(() => {
     loadReflections();
   }, []);
 
+  // Calculate the range of displayed reflections
   const from = page * itemsPerPage;
   const to = Math.min((page + 1) * itemsPerPage, reflections.length);
 

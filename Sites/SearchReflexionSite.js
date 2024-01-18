@@ -4,11 +4,15 @@ import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-cont
 import { getAllReflections } from '../storage/AsyncStorage';
 
 const SearchReflectionsComponent = () => {
+  // Use SafeAreaInsets to handle safe area padding
   const insets = useSafeAreaInsets();
+  
+  // State variables for search input, results, and all reflections
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchResults, setSearchResults] = React.useState([]);
   const [allReflections, setAllReflections] = React.useState([]);
 
+  // Function to load all reflections from storage
   const loadReflections = async () => {
     try {
       const loadedReflections = await getAllReflections();
@@ -18,10 +22,12 @@ const SearchReflectionsComponent = () => {
     }
   };
 
+  // Load reflections on component mount
   React.useEffect(() => {
     loadReflections();
   }, []);
 
+  // Function to handle the search based on the query
   const handleSearch = () => {
     const filteredReflections = allReflections.filter(reflection =>
       reflection.title.toLowerCase().includes(searchQuery.toLowerCase())
