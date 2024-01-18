@@ -1,19 +1,11 @@
 {
   "expo": {
     "name": "Lb1_Lars_Gerencser",
-    "slug": "Lb1_Lars_Gerencser",
     "version": "1.0.0",
+    "description":"This application is an easy to use Reflection greator and organiser. You can Add a Reflexion with the following Attributes Titel, Images, Voice Recordings and a Date",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "plugins": [
       [
         "expo-image-picker", 
@@ -29,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       }
     },
