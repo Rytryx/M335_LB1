@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Alert, Image } from 'react-native';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { TextInput, Button, IconButton } from 'react-native-paper';
 import { storeReflection } from '../storage/AsyncStorage';
+import ImagePickerComponent from '../components/ImagePickerComponent';
 
 const AddComponent = () => {
   const insets = useSafeAreaInsets();
@@ -12,29 +13,38 @@ const AddComponent = () => {
   const [reflectionText, setReflectionText] = React.useState('');
   const [reflectionDate, setReflectionDate] = React.useState(new Date());
   const [showDatePicker, setShowDatePicker] = React.useState(false);
-  const [image, setImage] = React.useState('');
+  const [selectedImage, setSelectedImage] = React.useState(null);
   const [voiceRecording, setVoiceRecording] = React.useState('');
 
-  const pickImage = () => {/* Placeholder for image picking logic */};
-  const startRecording = () => {/* Placeholder for voice recording logic */};
+  const handleImageSelected = (imageUri) => {
+    console.log('handleImageSelected called with imageUri:', imageUri);
+    setSelectedImage(imageUri);
+  };
   
+
+  const startRecording = () => {
+    console.log('Recording started');
+  };
+
   const submitReflection = async () => {
+    console.log('Image check', selectedImage);
     try {
       const reflectionId = new Date().getTime().toString();
       const newReflection = {
         id: reflectionId,
         title,
-        image, // This should be set by pickImage function
+        image: selectedImage,
         date: reflectionDate.toISOString(),
         text: reflectionText,
-        voiceRecording, // This should be set by startRecording function
+        voiceRecording,
       };
-
+      console.log('Reflection check', newReflection);
       await storeReflection(newReflection);
-      Alert.alert("Success", "Reflection added successfully.");
+      console.log('Reflection added successfully:', newReflection);
+      Alert.alert('Success', 'Reflection added successfully.');
     } catch (error) {
-      console.error(error);
-      Alert.alert("Error", "Failed to add reflection.");
+      console.error('Error adding reflection:', error);
+      Alert.alert('Error', 'Failed to add reflection.');
     }
   };
 
@@ -48,12 +58,13 @@ const AddComponent = () => {
           mode="outlined"
           style={styles.input}
         />
-        <TouchableOpacity style={styles.button} onPress={pickImage}>
-          <View style={styles.buttonContent}>
-            <Text style={styles.buttonText}>Pick an Image</Text>
-            <IconButton icon="camera" color="black" size={20} />
-          </View>
-        </TouchableOpacity>
+
+        <ImagePickerComponent onImageSelected={handleImageSelected} />
+
+        {selectedImage && (
+          <Image source={{ uri: selectedImage }} style={{ width: 200, height: 200 }} />
+        )}
+
         <TouchableOpacity style={styles.button} onPress={() => setShowDatePicker(true)}>
           <View style={styles.buttonContent}>
             <Text style={styles.buttonText}>Select Date</Text>

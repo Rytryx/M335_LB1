@@ -2,7 +2,7 @@ import * as React from 'react';
 import { BottomNavigation, Text } from 'react-native-paper';
 import AddComponent from '../sites/AddReflexionSite';
 import OverviewComponent from '../sites/OverviewSite';
-import AchievmentsComponent from '../sites/AchievmentsSite';
+import AchievmentsComponent from '../sites/SearchReflexionSite';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const AddRoute = () => 
@@ -13,7 +13,7 @@ const OverviewRoute = () =>
   <SafeAreaProvider>
     <OverviewComponent />
   </SafeAreaProvider>;
-const AchievmentsRoute = () => 
+const SearchReflexionRoute = () => 
   <SafeAreaProvider>
     <AchievmentsComponent />
   </SafeAreaProvider>;
@@ -23,13 +23,13 @@ const AppContent = () => {
   const [routes] = React.useState([
     { key: 'add', title: 'Add a Reflexion', focusedIcon: 'plus'},
     { key: 'overview', title: 'Reflexion Overview', focusedIcon: 'view-dashboard' },
-    { key: 'achievments', title: 'Achievments', focusedIcon: 'trophy' },
+    { key: 'searchreflexion', title: 'Search Reflexion', focusedIcon: 'paperclip' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
     add: AddRoute,
     overview: OverviewRoute,
-    achievments: AchievmentsRoute,
+    searchreflexion: SearchReflexionRoute,
   });
 
   return (
