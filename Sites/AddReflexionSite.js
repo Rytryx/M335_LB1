@@ -7,8 +7,10 @@ import { storeReflection } from '../storage/AsyncStorage';
 import ImagePickerComponent from '../components/ImagePickerComponent';
 
 const AddComponent = () => {
+  // Use SafeAreaInsets to handle safe area padding
   const insets = useSafeAreaInsets();
 
+  // Define state variables for various inputs and selections
   const [title, setTitle] = React.useState('');
   const [reflectionText, setReflectionText] = React.useState('');
   const [reflectionDate, setReflectionDate] = React.useState(new Date());
@@ -16,18 +18,18 @@ const AddComponent = () => {
   const [selectedImage, setSelectedImage] = React.useState(null);
   const [voiceRecording, setVoiceRecording] = React.useState('');
 
+  // Callback function to handle image selection
   const handleImageSelected = (imageUri) => {
-    console.log('handleImageSelected called with imageUri:', imageUri);
     setSelectedImage(imageUri);
   };
-  
 
+  // Function to start recording (needs implementation)
   const startRecording = () => {
-    console.log('Recording started');
+    console.log('Recording started'); // Placeholder for recording functionality
   };
 
+  // Function to submit the reflection
   const submitReflection = async () => {
-    console.log('Image check', selectedImage);
     try {
       const reflectionId = new Date().getTime().toString();
       const newReflection = {
@@ -38,9 +40,7 @@ const AddComponent = () => {
         text: reflectionText,
         voiceRecording,
       };
-      console.log('Reflection check', newReflection);
       await storeReflection(newReflection);
-      console.log('Reflection added successfully:', newReflection);
       Alert.alert('Success', 'Reflection added successfully.');
     } catch (error) {
       console.error('Error adding reflection:', error);

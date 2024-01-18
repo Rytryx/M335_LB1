@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Function to store a reflection in AsyncStorage
 export const storeReflection = async (reflection) => {
   try {
     const jsonValue = JSON.stringify(reflection);
@@ -9,6 +10,7 @@ export const storeReflection = async (reflection) => {
   }
 };
 
+// Function to retrieve a reflection from AsyncStorage by ID
 export const getReflection = async (id) => {
   try {
     const jsonValue = await AsyncStorage.getItem(`reflection_${id}`);
@@ -18,10 +20,12 @@ export const getReflection = async (id) => {
   }
 };
 
+// Function to update an existing reflection in AsyncStorage
 export const updateReflection = async (reflection) => {
   await storeReflection(reflection);
 };
 
+// Function to delete a reflection from AsyncStorage by ID
 export const deleteReflection = async (id) => {
   try {
     await AsyncStorage.removeItem(`reflection_${id}`);
@@ -30,6 +34,7 @@ export const deleteReflection = async (id) => {
   }
 };
 
+// Function to retrieve all reflections stored in AsyncStorage
 export const getAllReflections = async () => {
   try {
     const keys = await AsyncStorage.getAllKeys();
